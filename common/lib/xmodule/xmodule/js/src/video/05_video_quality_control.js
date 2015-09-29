@@ -1,15 +1,24 @@
 (function (requirejs, require, define) {
 
 // VideoQualityControl module.
+'use strict';
 define(
 'video/05_video_quality_control.js',
 [],
 function () {
     var template = [
-        '<a href="#" class="quality-control is-hidden" title="',
-            gettext('HD off'), '" role="button" aria-disabled="false">',
-            gettext('HD off'),
-        '</a>'
+        '<button class="control quality-control is-hidden" aria-disabled="false">',
+            '<span class="icon-fallback-img">',
+                '<span class="icon icon-hd" aria-hidden="true">',
+                    // Translator note:
+                    // HD here stands for High Definition, usually represented by the letters "HD"
+                    gettext('HD'),
+                '</span>',
+                '<span class="text control-text">',
+                    gettext('HD off'),
+                '</span>',
+            '</span>',
+        '</button>'
     ].join('');
 
     // VideoQualityControl() function - what this module "exports".
@@ -137,14 +146,14 @@ function () {
             controlStateStr = gettext('HD on');
             this.videoQualityControl.el
                                     .addClass('active')
-                                    .attr('title', controlStateStr)
-                                    .text(controlStateStr);
+                                    .find('.control-text')
+                                        .text(controlStateStr);
         } else {
             controlStateStr = gettext('HD off');
             this.videoQualityControl.el
                                     .removeClass('active')
-                                    .attr('title', controlStateStr)
-                                    .text(controlStateStr);
+                                    .find('.control-text')
+                                        .text(controlStateStr);
 
         }
     }
