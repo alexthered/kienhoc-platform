@@ -353,6 +353,10 @@ html:not('.afontgarde') .icon-fallback-img {
         border-radius: 0;
         background: rgb(79, 89, 93); // UXPL grayscale-cool dark
 
+        &:hover,
+        &:focus {
+        }
+
         .ui-widget-header {
           background: rgb(142, 62, 99); // UXPL secondary dark
           box-shadow: none;
@@ -402,13 +406,6 @@ html:not('.afontgarde') .icon-fallback-img {
 
           &.skip {
             white-space: nowrap;
-
-            .icon-fallback-img {
-
-              .icon {
-                background: url('#{$static-path}/images/fontawesome/step-forward.svg') center center no-repeat;
-              }
-            }
           }
         }
 
@@ -543,10 +540,21 @@ html:not('.afontgarde') .icon-fallback-img {
               }
             }
 
-            .speed-link {
-              @include text-align(left);
-              display: block;
-              width: 100%;
+            li {
+
+              .speed-link {
+                @include text-align(left);
+                display: block;
+                width: 100%;
+                border-radius: 0;
+              }
+
+              &.is-active {
+
+                .speed-link {
+                  color: rgb(252, 252, 252); // UXPL grayscale white
+                }
+              }
             }
           }
 
@@ -612,16 +620,6 @@ html:not('.afontgarde') .icon-fallback-img {
         .volume {
           display: inline-block;
           position: relative;
-
-          .control {
-
-            .icon-fallback-img {
-
-              .icon {
-                background: url('#{$static-path}/images/fontawesome/volume-up.svg') center center no-repeat;
-              }
-            }
-          }
 
           &.is-opened {
 
