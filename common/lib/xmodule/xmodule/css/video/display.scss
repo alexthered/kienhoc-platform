@@ -353,10 +353,6 @@ html:not('.afontgarde') .icon-fallback-img {
         border-radius: 0;
         background: rgb(79, 89, 93); // UXPL grayscale-cool dark
 
-        &:hover,
-        &:focus {
-        }
-
         .ui-widget-header {
           background: rgb(142, 62, 99); // UXPL secondary dark
           box-shadow: none;
