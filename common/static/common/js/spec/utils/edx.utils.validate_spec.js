@@ -15,7 +15,7 @@
                 EMAIL_ERROR_FRAGMENT = 'formatted',
                 MIN_ERROR_FRAGMENT = 'least',
                 MAX_ERROR_FRAGMENT = 'up to',
-                REQUIRED_ERROR_FRAGMENT = 'Please enter your',
+                REQUIRED_ERROR_FRAGMENT = 'Please fill in the',
                 CUSTOM_MESSAGE = 'custom message';
 
             var createFixture = function( type, name, required, minlength, maxlength, value ) {

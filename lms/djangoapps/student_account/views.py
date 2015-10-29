@@ -26,6 +26,7 @@ from external_auth.login_and_register import (
     login as external_auth_login,
     register as external_auth_register
 )
+from student.forms import dropdown_context
 from student.models import UserProfile
 from student.views import (
     signin_user as old_login_view,
@@ -378,6 +379,9 @@ def account_settings_context(request):
                 'options': released_languages(),
             }, 'level_of_education': {
                 'options': [(choice[0], _(choice[1])) for choice in UserProfile.LEVEL_OF_EDUCATION_CHOICES],  # pylint: disable=translation-of-non-string
+            }, 'dropdown': {
+                # pylint: disable=translation-of-non-string
+                'options': [(choice[0], _(choice[1])) for choice in dropdown_context()['dropdown_choices']]
             }, 'password': {
                 'url': reverse('password_reset'),
             }, 'year_of_birth': {

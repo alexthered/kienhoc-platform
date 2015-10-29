@@ -34,7 +34,7 @@ TEST_CS_URL = 'https://comments.service.test:123/'
     REGISTRATION_EXTRA_FIELDS={
         key: "optional"
         for key in [
-            "level_of_education", "gender", "mailing_address", "city", "country", "goals",
+            "level_of_education", "dropdown", "gender", "mailing_address", "city", "country", "goals",
             "year_of_birth"
         ]
     }
@@ -95,6 +95,7 @@ class TestCreateAccount(TestCase):
         profile = self.create_account_and_fetch_profile()
         self.assertEqual(profile.name, self.params["name"])
         self.assertEqual(profile.level_of_education, "")
+        self.assertEqual(profile.dropdown, "")
         self.assertEqual(profile.gender, "")
         self.assertEqual(profile.mailing_address, "")
         self.assertEqual(profile.city, "")
@@ -120,6 +121,7 @@ class TestCreateAccount(TestCase):
         year = datetime.now().year
         self.params.update({
             "level_of_education": "a",
+            "dropdown": "friend",
             "gender": "o",
             "mailing_address": "123 Example Rd",
             "city": "Exampleton",
@@ -136,6 +138,7 @@ class TestCreateAccount(TestCase):
             'name': self.params['name'],
             'age': 0,
             'education': 'Associate degree',
+            'dropdown': 'Referred by a Friend',
             'address': self.params['mailing_address'],
             'gender': 'Other/Prefer Not to Say',
             'country': self.params['country'],
@@ -152,6 +155,7 @@ class TestCreateAccount(TestCase):
     def test_profile_saved_all_optional_fields(self):
         self.params.update({
             "level_of_education": "a",
+            "dropdown": "friend",
             "gender": "o",
             "mailing_address": "123 Example Rd",
             "city": "Exampleton",
@@ -163,6 +167,7 @@ class TestCreateAccount(TestCase):
         })
         profile = self.create_account_and_fetch_profile()
         self.assertEqual(profile.level_of_education, "a")
+        self.assertEqual(profile.dropdown, "friend")
         self.assertEqual(profile.gender, "o")
         self.assertEqual(profile.mailing_address, "123 Example Rd")
         self.assertEqual(profile.city, "Exampleton")
@@ -184,6 +189,7 @@ class TestCreateAccount(TestCase):
     def test_profile_saved_empty_optional_fields(self):
         self.params.update({
             "level_of_education": "",
+            "dropdown": "",
             "gender": "",
             "mailing_address": "",
             "city": "",
@@ -195,6 +201,7 @@ class TestCreateAccount(TestCase):
         })
         profile = self.create_account_and_fetch_profile()
         self.assertEqual(profile.level_of_education, "")
+        self.assertEqual(profile.dropdown, "")
         self.assertEqual(profile.gender, "")
         self.assertEqual(profile.mailing_address, "")
         self.assertEqual(profile.city, "")

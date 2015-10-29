@@ -19,7 +19,8 @@ class TestAnalyticsDistributions(TestCase):
         self.users = [UserFactory(
             profile__gender=['m', 'f', 'o'][i % 3],
             profile__level_of_education=['a', 'hs', 'el'][i % 3],
-            profile__year_of_birth=i + 1930
+            profile__dropdown=['search', 'friend', 'other'][i % 3],
+            profile__year_of_birth=i + 1930,
         ) for i in xrange(30)]
 
         self.ces = [CourseEnrollment.enroll(user, self.course_id)
@@ -61,6 +62,16 @@ class TestAnalyticsDistributions(TestCase):
         distribution = profile_distribution(self.course_id, "gender")
         self.assertEqual(distribution.data['m'], len(course_enrollments) - 1)
 
+    def test_dropdown_count(self):
+        course_enrollments = CourseEnrollment.objects.filter(
+            course_id=self.course_id, user__profile__dropdown='friend'
+        )
+        distribution = profile_distribution(self.course_id, "dropdown")
+        self.assertEqual(distribution.data['friend'], len(course_enrollments))
+        course_enrollments[0].deactivate()
+        distribution = profile_distribution(self.course_id, "dropdown")
+        self.assertEqual(distribution.data['friend'], len(course_enrollments) - 1)
+
     def test_level_of_education_count(self):
         course_enrollments = CourseEnrollment.objects.filter(
             course_id=self.course_id, user__profile__level_of_education='hs'
@@ -97,7 +108,6 @@ class TestAnalyticsDistributionsNoData(TestCase):
         feature = 'gender'
         self.assertIn(feature, AVAILABLE_PROFILE_FEATURES)
         distribution = profile_distribution(self.course_id, feature)
-        print distribution
         self.assertEqual(distribution.type, 'EASY_CHOICE')
         self.assertTrue(hasattr(distribution, 'choices_display_names'))
         self.assertNotEqual(distribution.choices_display_names, None)
@@ -108,7 +118,6 @@ class TestAnalyticsDistributionsNoData(TestCase):
         feature = 'year_of_birth'
         self.assertIn(feature, AVAILABLE_PROFILE_FEATURES)
         distribution = profile_distribution(self.course_id, feature)
-        print distribution
         self.assertEqual(distribution.type, 'OPEN_CHOICE')
         self.assertTrue(hasattr(distribution, 'choices_display_names'))
         self.assertEqual(distribution.choices_display_names, None)

@@ -314,7 +314,7 @@ FEATURES = {
     'ENABLE_COURSE_BLOCKS_NAVIGATION_API': False,
 
     # Enable the combined login/registration form
-    'ENABLE_COMBINED_LOGIN_REGISTRATION': False,
+    'ENABLE_COMBINED_LOGIN_REGISTRATION': True,
 
     # Enable organizational email opt-in
     'ENABLE_MKTG_EMAIL_OPT_IN': False,
@@ -2182,6 +2182,7 @@ REGISTRATION_EXTRA_FIELDS = {
     'terms_of_service': 'hidden',
     'city': 'hidden',
     'country': 'hidden',
+    'dropdown': 'hidden',
 }
 
 ########################## CERTIFICATE NAME ########################
@@ -2586,6 +2587,7 @@ ACCOUNT_VISIBILITY_CONFIGURATION = {
         "goals",
         "year_of_birth",
         "level_of_education",
+        "dropdown",
         "mailing_address",
         "requires_parental_consent",
         "account_privacy",

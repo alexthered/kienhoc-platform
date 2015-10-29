@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import UNUSABLE_PASSWORD
 from django.contrib.auth.tokens import default_token_generator
 
 from django.utils.http import int_to_base36
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, gettext
 from django.template import loader
 
 from django.conf import settings
@@ -159,6 +159,7 @@ class AccountCreationForm(forms.Form):
         # TODO: These messages don't say anything about minimum length
         error_message_dict = {
             "level_of_education": _("A level of education is required"),
+            "dropdown": dropdown_context()['dropdown_missing_error'],
             "gender": _("Your gender is required"),
             "year_of_birth": _("Your year of birth is required"),
             "mailing_address": _("Your mailing address is required"),
@@ -234,3 +235,28 @@ class AccountCreationForm(forms.Form):
             for key, value in self.cleaned_data.items()
             if key in self.extended_profile_fields and value is not None
         }
+
+
+def dropdown_context():
+    """
+    Returns a dictionary containing context values for the dropdown menu for use in a template or
+    other situations which require fallback defaults.
+    """
+    return {
+        'dropdown_visibility': getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {}).get('dropdown', 'hidden'),
+        'dropdown_label': getattr(settings, 'REGISTRATION_DROPDOWN_LABEL', gettext('How did you hear of us?')),
+        'dropdown_missing_error': getattr(
+            settings,
+            'REGISTRATION_DROPDOWN_MISSING_ERROR',
+            gettext('You must select how you heard of us.')
+        ),
+        'dropdown_choices': getattr(
+            settings,
+            'REGISTRATION_DROPDOWN_CHOICES',
+            (
+                ('search', gettext('Search Engine')),
+                ('friend', gettext('Referred by a Friend')),
+                ('other', gettext('Other')),
+            )
+        )
+    }

@@ -3,6 +3,7 @@ Defines abstract class for the Enrollment Reports.
 """
 
 from django.contrib.auth.models import User
+from student.forms import dropdown_context
 from student.models import UserProfile
 import collections
 import json
@@ -44,6 +45,7 @@ class BaseAbstractEnrollmentReportProvider(AbstractEnrollmentReportProvider):
 
     # don't allow instantiation of this class, it must be subclassed
     """
+
     def get_user_profile(self, user_id):
         """
         Returns the UserProfile information.
@@ -67,18 +69,13 @@ class BaseAbstractEnrollmentReportProvider(AbstractEnrollmentReportProvider):
         user_data['Country'] = user_info.profile.country
         user_data['Year of Birth'] = user_info.profile.year_of_birth
 
-        user_data['Gender'] = None
-        gender = user_info.profile.gender
-        for _gender in UserProfile.GENDER_CHOICES:
-            if gender == _gender[0]:
-                user_data['Gender'] = _gender[1]
-                break
+        user_data['Gender'] = dict(UserProfile.GENDER_CHOICES).get(user_info.profile.gender)
 
-        user_data['Level of Education'] = None
-        level_of_education = user_info.profile.level_of_education
-        for _loe in UserProfile.LEVEL_OF_EDUCATION_CHOICES:
-            if level_of_education == _loe[0]:
-                user_data['Level of Education'] = _loe[1]
+        user_data['Level of Education'] = dict(UserProfile.LEVEL_OF_EDUCATION_CHOICES).get(
+            user_info.profile.level_of_education
+        )
+
+        user_data['Dropdown'] = dict(dropdown_context()['dropdown_choices']).get(user_info.profile.dropdown)
 
         user_data['Mailing Address'] = user_info.profile.mailing_address
         user_data['Goals'] = user_info.profile.goals

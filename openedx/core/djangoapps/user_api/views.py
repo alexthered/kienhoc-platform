@@ -21,6 +21,7 @@ from django_countries import countries
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 
 from openedx.core.lib.api.permissions import ApiKeyHeaderPermission
+from student.forms import dropdown_context
 import third_party_auth
 from django_comment_common.models import Role
 from edxmako.shortcuts import marketing_link
@@ -162,6 +163,7 @@ class RegistrationView(APIView):
         "gender",
         "year_of_birth",
         "level_of_education",
+        "dropdown",
         "mailing_address",
         "goals",
         "honor_code",
@@ -185,8 +187,10 @@ class RegistrationView(APIView):
 
         # Backwards compatibility: Honor code is required by default, unless
         # explicitly set to "optional" in Django settings.
+        # Dropdown is hidden by default unless explicitly set in Django settings.
         self._extra_fields_setting = copy.deepcopy(settings.REGISTRATION_EXTRA_FIELDS)
         self._extra_fields_setting["honor_code"] = self._extra_fields_setting.get("honor_code", "required")
+        self._extra_fields_setting["dropdown"] = self._extra_fields_setting.get("dropdown", "hidden")
 
         # Check that the setting is configured correctly
         for field_name in self.EXTRA_FIELDS:
@@ -432,6 +436,29 @@ class RegistrationView(APIView):
                 "min_length": PASSWORD_MIN_LENGTH,
                 "max_length": PASSWORD_MAX_LENGTH,
             },
+            required=required
+        )
+
+    # pylint: disable=translation-of-non-string
+    def _add_dropdown_field(self, form_desc, required=True):
+        """Add a custom dropdown field to a form description.
+
+        Arguments:
+            form_desc: A form description
+
+        Keyword Arguments:
+            required (bool): Whether this field is required; defaults to True
+
+        """
+        dropdown_settings = dropdown_context()
+        dropdown_label = _(dropdown_settings['dropdown_label'])
+        options = [(name, _(label)) for name, label in dropdown_settings['dropdown_choices']]
+        form_desc.add_field(
+            "dropdown",
+            label=dropdown_label,
+            field_type="select",
+            options=options,
+            include_default_option=True,
             required=required
         )
 

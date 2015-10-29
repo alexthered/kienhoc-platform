@@ -53,7 +53,7 @@ from student.models import (
     CourseEnrollmentAllowed, UserStanding, LoginFailures,
     create_comments_service_user, PasswordHistory, UserSignupSource,
     DashboardConfiguration, LinkedInAddToProfileConfiguration, ManualEnrollmentAudit, ALLOWEDTOENROLL_TO_ENROLLED)
-from student.forms import AccountCreationForm, PasswordResetFormNoActive
+from student.forms import AccountCreationForm, PasswordResetFormNoActive, dropdown_context
 
 from verify_student.models import SoftwareSecurePhotoVerification  # pylint: disable=import-error
 from certificates.models import CertificateStatuses, certificate_status_for_student
@@ -456,6 +456,8 @@ def register_user(request, extra_context=None):
             overrides['running_pipeline'] = running_pipeline
             overrides['selected_provider'] = current_provider.name
             context.update(overrides)
+
+    context.update(dropdown_context())
 
     return render_to_response('register.html', context)
 
@@ -1459,7 +1461,7 @@ def _do_create_account(form):
     registration.register(user)
 
     profile_fields = [
-        "name", "level_of_education", "gender", "mailing_address", "city", "country", "goals",
+        "name", "level_of_education", "dropdown", "gender", "mailing_address", "city", "country", "goals",
         "year_of_birth"
     ]
     profile = UserProfile(
@@ -1633,6 +1635,7 @@ def create_account_with_params(request, params):
                 'address': profile.mailing_address,
                 'gender': profile.gender_display,
                 'country': unicode(profile.country),
+                'dropdown': profile.dropdown_display,
             }
         ]
 

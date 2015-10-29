@@ -282,6 +282,19 @@ import calendar
             </div>
           </li>
           % endif
+          % if dropdown_visibility_setting != 'hidden':
+          <li class="field-group field-dropdown">
+          <div class="field ${dropdown_visibility} select" id="field-dropdown">
+              <label for="dropdown">${dropdown_label}</label>
+              <select id="dropdown" name="dropdown" ${'required aria-required="true"' if dropdown_visibility == 'required' else ''}>
+                <option value="">--</option>
+                %for code, choice in dropdown_choices:
+                <option value="${code}">${_(choice)}</option>
+                %endfor
+                </select>
+            </div>
+          </li>
+          % endif
           % if settings.REGISTRATION_EXTRA_FIELDS['gender'] != 'hidden':
           <li class="field-group field-gender">
             <div class="field ${settings.REGISTRATION_EXTRA_FIELDS['gender']} select" id="field-gender">
