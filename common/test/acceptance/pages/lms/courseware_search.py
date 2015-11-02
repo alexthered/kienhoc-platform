@@ -28,6 +28,7 @@ class CoursewareSearchPage(CoursePage):
 
     def search(self):
         """ execute the search """
+        from nose.tools import set_trace; set_trace()
         self.q(css=self.search_bar_selector + ' [type="submit"]').click()
         self.wait_for_element_visibility('.search-info', 'Search results are shown')
 
