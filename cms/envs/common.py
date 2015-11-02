@@ -246,12 +246,12 @@ TEMPLATES = [
                 'django.template.loaders.app_directories.Loader',
             ),
             'context_processors': (
-                'django.core.context_processors.request',
-                'django.core.context_processors.static',
+                'django.template.context_processors.request',
+                'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.i18n',
+                'django.template.context_processors.i18n',
                 'django.contrib.auth.context_processors.auth',  # this is required for admin
-                'django.core.context_processors.csrf',
+                'django.template.context_processors.csrf',
                 'dealer.contrib.django.staff.context_processor',  # access git revision
                 'contentstore.context_processors.doc_url',
             ),
