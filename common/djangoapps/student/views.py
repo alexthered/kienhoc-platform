@@ -457,7 +457,7 @@ def register_user(request, extra_context=None):
             overrides['selected_provider'] = current_provider.name
             context.update(overrides)
 
-    context.update(registration_dropdown_context())
+    context.update(registration_dropdown_context()._asdict())
 
     return render_to_response('register.html', context)
 
