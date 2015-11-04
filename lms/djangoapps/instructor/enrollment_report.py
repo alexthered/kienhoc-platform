@@ -3,7 +3,7 @@ Defines abstract class for the Enrollment Reports.
 """
 
 from django.contrib.auth.models import User
-from student.forms import dropdown_context
+from student.forms import registration_dropdown_context
 from student.models import UserProfile
 import collections
 import json
@@ -75,7 +75,7 @@ class BaseAbstractEnrollmentReportProvider(AbstractEnrollmentReportProvider):
             user_info.profile.level_of_education
         )
 
-        user_data['Dropdown'] = dict(dropdown_context()['dropdown_choices']).get(user_info.profile.dropdown)
+        user_data['Dropdown'] = dict(registration_dropdown_context().dropdown_choices).get(user_info.profile.dropdown)
 
         user_data['Mailing Address'] = user_info.profile.mailing_address
         user_data['Goals'] = user_info.profile.goals

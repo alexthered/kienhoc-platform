@@ -21,7 +21,7 @@ from django_countries import countries
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 
 from openedx.core.lib.api.permissions import ApiKeyHeaderPermission
-from student.forms import dropdown_context
+from student.forms import registration_dropdown_context
 import third_party_auth
 from django_comment_common.models import Role
 from edxmako.shortcuts import marketing_link
@@ -450,9 +450,9 @@ class RegistrationView(APIView):
             required (bool): Whether this field is required; defaults to True
 
         """
-        dropdown_settings = dropdown_context()
-        dropdown_label = _(dropdown_settings['dropdown_label'])
-        options = [(name, _(label)) for name, label in dropdown_settings['dropdown_choices']]
+        dropdown_context = registration_dropdown_context()
+        dropdown_label = _(dropdown_context.dropdown_label)
+        options = [(name, _(label)) for name, label in dropdown_context.dropdown_choices]
         form_desc.add_field(
             "dropdown",
             label=dropdown_label,

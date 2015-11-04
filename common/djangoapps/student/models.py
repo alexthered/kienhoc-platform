@@ -43,7 +43,7 @@ from opaque_keys.edx.keys import CourseKey
 from opaque_keys.edx.locations import SlashSeparatedCourseKey
 from simple_history.models import HistoricalRecords
 from south.modelsinspector import add_introspection_rules
-from student.forms import dropdown_context
+from student.forms import registration_dropdown_context
 from track import contexts
 from xmodule_django.models import CourseKeyField, NoneToEmptyManager
 
@@ -314,7 +314,7 @@ class UserProfile(models.Model):
     def dropdown_display(self):
         """ Convenience method that returns the human readable dropdown option. """
         if self.dropdown:
-            return self.__enumerable_to_display(dropdown_context()['dropdown_choices'], self.dropdown)
+            return self.__enumerable_to_display(registration_dropdown_context().dropdown_choices, self.dropdown)
 
     def get_meta(self):  # pylint: disable=missing-docstring
         js_str = self.meta

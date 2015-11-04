@@ -22,7 +22,7 @@ The distribution in a course for gender might look like:
 """
 
 from django.db.models import Count
-from student.forms import dropdown_context
+from student.forms import registration_dropdown_context
 from student.models import CourseEnrollment, UserProfile
 
 # choices with a restricted domain, e.g. level_of_education
@@ -110,7 +110,7 @@ def profile_distribution(course_id, feature):
         elif feature == 'level_of_education':
             raw_choices = UserProfile.LEVEL_OF_EDUCATION_CHOICES
         elif feature == 'dropdown':
-            raw_choices = dropdown_context()['dropdown_choices']
+            raw_choices = registration_dropdown_context().dropdown_choices
 
         # short name and display name (full) of the choices.
         choices = [(short, full)

@@ -314,7 +314,7 @@ FEATURES = {
     'ENABLE_COURSE_BLOCKS_NAVIGATION_API': False,
 
     # Enable the combined login/registration form
-    'ENABLE_COMBINED_LOGIN_REGISTRATION': True,
+    'ENABLE_COMBINED_LOGIN_REGISTRATION': False,
 
     # Enable organizational email opt-in
     'ENABLE_MKTG_EMAIL_OPT_IN': False,

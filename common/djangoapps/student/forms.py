@@ -1,6 +1,8 @@
 """
 Utility functions for validating forms
 """
+from collections import namedtuple
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
@@ -159,7 +161,7 @@ class AccountCreationForm(forms.Form):
         # TODO: These messages don't say anything about minimum length
         error_message_dict = {
             "level_of_education": _("A level of education is required"),
-            "dropdown": dropdown_context()['dropdown_missing_error'],
+            "dropdown": registration_dropdown_context().dropdown_missing_error,
             "gender": _("Your gender is required"),
             "year_of_birth": _("Your year of birth is required"),
             "mailing_address": _("Your mailing address is required"),
@@ -237,20 +239,25 @@ class AccountCreationForm(forms.Form):
         }
 
 
-def dropdown_context():
+RegDropDownContext = namedtuple(
+    'RegDropDownContext', ['dropdown_visibility', 'dropdown_label', 'dropdown_missing_error', 'dropdown_choices']
+)
+
+
+def registration_dropdown_context():
     """
     Returns a dictionary containing context values for the dropdown menu for use in a template or
     other situations which require fallback defaults.
     """
-    return {
-        'dropdown_visibility': getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {}).get('dropdown', 'hidden'),
-        'dropdown_label': getattr(settings, 'REGISTRATION_DROPDOWN_LABEL', gettext('How did you hear of us?')),
-        'dropdown_missing_error': getattr(
+    return RegDropDownContext(
+        getattr(settings, 'REGISTRATION_EXTRA_FIELDS', {}).get('dropdown', 'hidden'),
+        getattr(settings, 'REGISTRATION_DROPDOWN_LABEL', gettext('How did you hear of us?')),
+        getattr(
             settings,
             'REGISTRATION_DROPDOWN_MISSING_ERROR',
             gettext('You must select how you heard of us.')
         ),
-        'dropdown_choices': getattr(
+        getattr(
             settings,
             'REGISTRATION_DROPDOWN_CHOICES',
             (
@@ -259,4 +266,4 @@ def dropdown_context():
                 ('other', gettext('Other')),
             )
         )
-    }
+    )

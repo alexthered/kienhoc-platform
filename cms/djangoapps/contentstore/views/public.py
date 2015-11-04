@@ -13,7 +13,7 @@ from edxmako.shortcuts import render_to_response
 from external_auth.views import (ssl_login_shortcut, ssl_get_cert_from_request,
                                  redirect_with_get)
 from microsite_configuration import microsite
-from student.forms import dropdown_context
+from student.forms import registration_dropdown_context
 
 __all__ = ['signup', 'login_page', 'howitworks']
 
@@ -33,8 +33,8 @@ def signup(request):
         return redirect_with_get('login', request.GET, False)
 
     context = {'csrf': csrf_token}
-    context.update(dropdown_context())
-    return render_to_response('register.html', )
+    context.update(registration_dropdown_context()._asdict())
+    return render_to_response('register.html', context)
 
 
 @ssl_login_shortcut

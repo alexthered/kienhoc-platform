@@ -53,7 +53,7 @@ from student.models import (
     CourseEnrollmentAllowed, UserStanding, LoginFailures,
     create_comments_service_user, PasswordHistory, UserSignupSource,
     DashboardConfiguration, LinkedInAddToProfileConfiguration, ManualEnrollmentAudit, ALLOWEDTOENROLL_TO_ENROLLED)
-from student.forms import AccountCreationForm, PasswordResetFormNoActive, dropdown_context
+from student.forms import AccountCreationForm, PasswordResetFormNoActive, registration_dropdown_context
 
 from verify_student.models import SoftwareSecurePhotoVerification  # pylint: disable=import-error
 from certificates.models import CertificateStatuses, certificate_status_for_student
@@ -457,7 +457,7 @@ def register_user(request, extra_context=None):
             overrides['selected_provider'] = current_provider.name
             context.update(overrides)
 
-    context.update(dropdown_context())
+    context.update(registration_dropdown_context())
 
     return render_to_response('register.html', context)
 
