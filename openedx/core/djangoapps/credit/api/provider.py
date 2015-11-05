@@ -4,11 +4,11 @@ API for initiating and tracking requests for credit from a provider.
 
 import datetime
 import logging
-import pytz
 import uuid
 
+import pytz
+
 from django.db import transaction
-from lms.djangoapps.django_comment_client.utils import JsonResponse
 
 from openedx.core.djangoapps.credit.exceptions import (
     UserIsNotEligible,

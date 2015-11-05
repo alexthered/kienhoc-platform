@@ -1,10 +1,10 @@
 """ Credit API Serializers """
 
 from rest_framework import serializers
-
 from opaque_keys.edx.keys import CourseKey
 from opaque_keys import InvalidKeyError
-from openedx.core.djangoapps.credit.models import CreditCourse
+
+from openedx.core.djangoapps.credit.models import CreditCourse, CreditProvider
 
 
 class CourseKeyField(serializers.Field):
@@ -32,3 +32,15 @@ class CreditCourseSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = CreditCourse
         exclude = ('id',)
+
+
+class CreditProviderSerializer(serializers.ModelSerializer):
+    id = serializers.CharField(source='provider_id')
+    description = serializers.CharField(source='provider_description')
+    status_url = serializers.URLField(source='provider_status_url')
+    url = serializers.URLField(source='provider_url')
+
+    class Meta(object):
+        model = CreditProvider
+        fields = ('id', 'display_name', 'url', 'status_url', 'description', 'enable_integration',
+                  'fulfillment_instructions', 'thumbnail_url',)
