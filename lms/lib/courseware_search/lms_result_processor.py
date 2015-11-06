@@ -41,7 +41,7 @@ class LmsSearchResultProcessor(SearchResultProcessor):
         """ fetch cached blocks for course - retain for subsequent use """
         course_key = self.get_course_key()
         if course_key not in self._course_blocks:
-            self._course_blocks[course_key] = get_course_blocks(user, course_key=course_key)
+            self._course_blocks[course_key] = get_course_blocks(user, course_key)
         return self._course_blocks[course_key]
 
     @property

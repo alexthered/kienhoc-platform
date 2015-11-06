@@ -102,8 +102,18 @@ class SplitTestCoursewareSearchTest(ContainerBase):
             XBlockFixtureDesc('chapter', 'Test Section').add_children(
                 XBlockFixtureDesc('sequential', 'Test Subsection').add_children(
                     XBlockFixtureDesc('vertical', 'Test Unit').add_children(
-                        XBlockFixtureDesc('html', 'VISIBLE TO A', data='<html>VISIBLE TO A</html>', metadata={"group_access": {0: [0]}}),
-                        XBlockFixtureDesc('html', 'VISIBLE TO B', data='<html>VISIBLE TO B</html>', metadata={"group_access": {0: [1]}})
+                        XBlockFixtureDesc(
+                            'html',
+                            'VISIBLE TO A',
+                            data='<html>VISIBLE TO A</html>',
+                            metadata={"group_access": {0: [0]}}
+                        ),
+                        XBlockFixtureDesc(
+                            'html',
+                            'VISIBLE TO B',
+                            data='<html>VISIBLE TO B</html>',
+                            metadata={"group_access": {0: [1]}}
+                        )
                     )
                 )
             )
