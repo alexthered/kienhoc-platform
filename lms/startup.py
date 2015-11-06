@@ -95,7 +95,6 @@ def enable_stanford_theme():
 
     # Include the theme's templates in the template search paths
     settings.TEMPLATES[0]['DIRS'].insert(0, theme_root / 'templates')
-    print settings.TEMPLATES
     edxmako.paths.add_lookup('main', theme_root / 'templates', prepend=True)
 
     # Namespace the theme's static files to 'themes/<theme_name>' to
