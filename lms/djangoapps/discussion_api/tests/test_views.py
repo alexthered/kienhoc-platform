@@ -799,7 +799,7 @@ class CommentViewSetListTest(DiscussionAPIViewTestMixin, ModuleStoreTestCase):
 @httpretty.activate
 @disable_signal(api, 'comment_deleted')
 @mock.patch.dict("django.conf.settings.FEATURES", {"ENABLE_DISCUSSION_SERVICE": True})
-class CommentViewSetDeleteTest(DiscussionAPIViewTestMixin, ModuleStoreTestCase):
+class test_not_authenticated(DiscussionAPIViewTestMixin, ModuleStoreTestCase):
     """Tests for ThreadViewSet delete"""
 
     def setUp(self):
