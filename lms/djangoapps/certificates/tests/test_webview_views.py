@@ -3,6 +3,7 @@
 
 import json
 import ddt
+import mock
 from uuid import uuid4
 from nose.plugins.attrib import attr
 from mock import patch
@@ -162,6 +163,28 @@ class CertificatesViewsTests(ModuleStoreTestCase, EventTrackingTestCase):
         )
         response = self.client.get(test_url)
         self.assertTrue(urllib.quote_plus(self.request.build_absolute_uri(test_url)) in response.content)
+
+    def _fake_is_request_in_microsite():
+        """
+        Mocked version of microsite helper method to always return true
+        """
+        return True
+
+    @override_settings(FEATURES=FEATURES_WITH_CERTS_ENABLED)
+    @mock.patch("microsite_configuration.microsite.is_request_in_microsite", _fake_is_request_in_microsite)
+    def test_linkedin_share_microsites(self):
+        """
+        Test: LinkedIn share URL should not be visible when called from within a microsite (for now)
+        """
+        self._add_course_certificates(count=1, signatory_count=1, is_active=True)
+        test_url = get_certificate_url(
+            user_id=self.user.id,
+            course_id=unicode(self.course.id)
+        )
+        response = self.client.get(test_url)
+
+        # the URL should not be present
+        self.assertFalse(urllib.quote_plus(self.request.build_absolute_uri(test_url)) in response.content)
 
     @override_settings(FEATURES=FEATURES_WITH_CERTS_ENABLED)
     def test_rendering_course_organization_data(self):
